@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Chatbot</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #ece5dd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 350px;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .header {
+      background: #075e54;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .chat-box {
+      height: 400px;
+      padding: 10px;
+      overflow-y: auto;
+      background: #e5ddd5;
+    }
+
+    .message {
+      margin: 8px 0;
+      padding: 8px 12px;
+      border-radius: 10px;
+      max-width: 70%;
+    }
+
+    .user {
+      background: #dcf8c6;
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .bot {
+      background: white;
+      text-align: left;
+    }
+
+    .input-area {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      background: #075e54;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0b7d6e;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="header">🤖 Smart Chatbot</div>
+
+  <div class="chat-box" id="chatBox"></div>
+
+  <div class="input-area">
+    <input type="text" id="userInput" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+function sendMessage() {
+  let inputField = document.getElementById("userInput");
+  let message = inputField.value.trim();
+  if (message === "") return;
+
+  addMessage(message, "user");
+  let reply = getBotReply(message.toLowerCase());
+
+  setTimeout(() => {
+    addMessage(reply, "bot");
+  }, 500);
+
+  inputField.value = "";
+}
+
+function addMessage(text, type) {
+  let chatBox = document.getElementById("chatBox");
+  let msg = document.createElement("div");
+  msg.classList.add("message", type);
+  msg.innerText = text;
+  chatBox.appendChild(msg);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function getBotReply(input) {
+  if (input.includes("hello") || input.includes("hi")) {
+    return "Hello! 😊";
+  } else if (input.includes("how are you")) {
+    return "I'm doing great! How can I help you?";
+  } else if (input.includes("your name")) {
+    return "I am your smart chatbot 🤖";
+  } else if (input.includes("bye")) {
+    return "Goodbye! Have a nice day 👋";
+  } else if (input.includes("help")) {
+    return "You can ask me simple questions!";
+  } else {
+    return "Sorry, I don't understand that yet.";
+  }
+}
+
+// Enter key support
+document.getElementById("userInput")
+  .addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  });
+</script>
+
+</body>
+</html>
